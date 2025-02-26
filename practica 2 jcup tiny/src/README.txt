@@ -1,0 +1,2 @@
+Se ha copiado el spec.jflex del tiny de la parte 1 y se le ha puesto la parte para el control de errores del CUP asi que, en teoria, no hay que tocarlo más
+Tambien se ha copiado la ClaseLexica de tiny
