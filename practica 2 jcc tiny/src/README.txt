@@ -1,0 +1,1 @@
+Lo añadido en el archivo spec.jj en tramos desde la linea 24 hasta 53

@@ -1,0 +1,67 @@
+options  {
+  STATIC=false;
+  DEBUG_PARSER=true;
+}  
+PARSER_BEGIN(AnalizadorSintacticoTiny)
+package asint;
+
+public class AnalizadorSintacticoTiny {
+    protected void newToken(Token t) {}
+}
+PARSER_END(AnalizadorSintacticoTiny)
+
+  TOKEN:{<#letra:["a"-"z","A"-"Z"]>}
+  TOKEN:{<#digitoPositivo:["1"-"9"]>}
+  TOKEN:{<#digito:<digitoPositivo>|"0">} 
+  TOKEN:{<#parteEntera:<digitoPositivo> (<digito>)* |"0">} 
+  TOKEN:{<#parteDecimal: (<digito>)* <digitoPositivo> | "0">}
+  SKIP:{<["\t"," ","\r","\b","\n"]>}  
+  SKIP:{<"#""#"(~["\n"])*>}  
+  TOKEN: {<donde:"donde">}
+  TOKEN: {<evalua:"evalua">}
+  TOKEN:{<iden:<letra>(<letra>|<digito>)*>}
+  TOKEN:{<lit_ent:(["+","-"])?<parteEntera>>}
+  TOKEN:{<lit_real:(["+","-"])?<parteEntera>"."<parteDecimal>> }
+  
+  
+  TOKEN: {<STRING:["s","S"]["t","T"]["r","R"]["i","I"]["n","N"]["g","G"]>}
+  TOKEN: {<NULL:["n","N"]["u","U"]["l","L"]["l","L"]>}
+  TOKEN: {<PROC:["p","P"]["r","R"]["o","O"]["c","C"]>}
+  TOKEN: {<TRUE:["t","T"]["r","R"]["u","U"]["e","E"]>}
+  TOKEN: {<FALSE:["f","F"]["a","A"]["l","L"]["s","S"]["e","E"]>}
+  TOKEN: {<IF:["i","I"]["f","F"]>}
+  TOKEN: {<ELSE :["e","E"]["l","L"]["s","S"]["e","E"]>}
+  TOKEN: {<WHILE:["w","W"]["h","H"]["i","I"]["l","L"]["e","E"]>}
+  TOKEN: {<STRUCT :["s","S"]["t","T"]["r","R"]["u","U"]["c","C"]["t","T"]>}
+  TOKEN: {<NEW:["n","N"]["e","E"]["w","W"]>}
+  TOKEN: {<DELETE:["d","D"]["e","E"]["l","L"]["e","E"]["t","T"]["e","E"]>}
+  TOKEN: {<READ:["r","R"]["e","E"]["a","A"]["d","D"]>}
+  TOKEN: {<WRITE:["w","W"]["r","R"]["i", "I"]["t","T"]["e", "E"]>}
+  TOKEN: {<NL:["n","N"]["l","L"]>}
+  TOKEN: {<TYPE:["t","T"]["y","Y"]["p","P"]["e","E"]>}
+  TOKEN: {<CALL:["c","C"]["a","A"]["l","L"]["l","L"]>}
+  TOKEN: {<AND:["a","A"]["n","N"]["d","D"]>}
+  TOKEN: {<NOT:["n","N"]["o","O"]["t","T"]>}
+  TOKEN: {<OR:["o","O"]["r","R"]>}
+  TOKEN: {<ENT:["i","I"]["n","N"]["t","T"]>}
+  TOKEN: {<REAL:["r","R"]["e","E"]["a","A"]["l","L"]>}
+  TOKEN: {<BOOL:["b","B"]["o","O"]["o","O"]["l","L"]>}
+  TOKEN: {<cadena:("\""(~["\n"])*"\"")>}
+  TOKEN:{<lit_exp:(<lit_real> | <lit_ent>)["e","E"]<lit_ent>>} 
+   
+  
+  void analiza()   : {} {programa() <EOF> }
+  void programa()  : {} {expresion() declaraciones()}
+  void expresion() : {} {<evalua> e0()}
+  void declaraciones() : {} {<donde> lista_declaraciones() | {}}
+  void lista_declaraciones() : {} {declaracion() rlista_decs()}
+  void rlista_decs() : {} {"," declaracion() rlista_decs() | {}}
+  void declaracion() : {} {<iden> "=" e0()}
+  void e0() : {} {e1() re0()}
+  void re0() : {} {op0() e1() re0() | {}}
+  void e1() : {} {e2() re1()}
+  void re1() : {} {op1() e2() re1() | {}}
+  void e2() : {} {<iden> | <lit_ent> |  <lit_real> | "(" e0() ")"}
+  void op0()  : {} {"+" | "-"}
+  void op1()  : {} {"*" | "/"}
+  
