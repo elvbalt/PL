@@ -17,9 +17,9 @@ PARSER_END(AnalizadorSintacticoTiny)
   TOKEN:{<#parteDecimal: (<digito>)* <digitoPositivo> | "0">}
   SKIP:{<["\t"," ","\r","\b","\n"]>}  
   SKIP:{<"#""#"(~["\n"])*>}  
-  TOKEN: {<donde:"donde">}
-  TOKEN: {<evalua:"evalua">}
-  TOKEN:{<iden:<letra>(<letra>|<digito>)*>}
+  TOKEN: {<DONDE:["d","D"]["o","O"]["n","N"]["d","D"]["e","E"]>}
+  TOKEN: {<EVALUA:["e","E"]["v","V"]["a","A"]["l","L"]["u","U"]["a","A"]>}
+  TOKEN:{<IDEN:<letra>(<letra>|<digito>)*>}
   TOKEN:{<lit_ent:(["+","-"])?<parteEntera>>}
   TOKEN:{<lit_real:(["+","-"])?<parteEntera>"."<parteDecimal>> }
   
@@ -49,19 +49,84 @@ PARSER_END(AnalizadorSintacticoTiny)
   TOKEN: {<cadena:("\""(~["\n"])*"\"")>}
   TOKEN:{<lit_exp:(<lit_real> | <lit_ent>)["e","E"]<lit_ent>>} 
    
+  void programa()   : {} {bloque() <EOF> }
+  void bloque()  : {} {"{" declaraciones() intrucciones() "}"}
   
-  void analiza()   : {} {programa() <EOF> }
-  void programa()  : {} {expresion() declaraciones()}
-  void expresion() : {} {<evalua> e0()}
-  void declaraciones() : {} {<donde> lista_declaraciones() | {}}
-  void lista_declaraciones() : {} {declaracion() rlista_decs()}
-  void rlista_decs() : {} {"," declaracion() rlista_decs() | {}}
-  void declaracion() : {} {<iden> "=" e0()}
-  void e0() : {} {e1() re0()}
-  void re0() : {} {op0() e1() re0() | {}}
-  void e1() : {} {e2() re1()}
-  void re1() : {} {op1() e2() re1() | {}}
-  void e2() : {} {<iden> | <lit_ent> |  <lit_real> | "(" e0() ")"}
-  void op0()  : {} {"+" | "-"}
-  void op1()  : {} {"*" | "/"}
+  void declaraciones() : {} {lista_declaraciones() "&&" | {}}
+  void lista_declaraciones: {} {declaracion() rec-declaracion()}
+  void rec-declaracion: {} {";" declaracion() rec-declaracion() | {}}
+  void declaracion(): {} {declaracion_variable() | declaracion_tipo() | declaracion_procedimiento()}
+  
+  void declaracion_variable(): {} {tipo0() <IDEN>}
+  void tipo0(): {} {tipo1() rec_tipo0()}
+  void rec_tipo0(): {} {"["<lit_ent>"]" rec_tipo0() | {}}
+  void tipo1(): {} {"^" tipo1() | tipo2()}
+  void tipo2(): {} {registro() | <IDEN> | <ENT> | <REAL> | <BOOL> | <STRING>}
+  
+  void registro(): {} {<STRUCT> campos()}
+  void campos(): {} {l_campos()}
+  void l_campos(): {} {declaracion_variable() rec_l_campos()}
+  void rec_l_campos: {} {"," declaracion_variable() rec_l_campos() | {}}
+  
+  void declaracion_tipo(): {} {<TYPE> tipo0() <IDEN>}
+  
+  void declaracion_procedimiento(): {} {cabeza() bloque()}
+  void cabeza(): {} {<PROC> <IDEN> "(" parametros() ")"}
+  void parametros(): {} {lista_parametros() | {}}
+  void lista_parametros(): {} {parametro() rec_parametros()}
+  void rec_parametros(): {} {"," parametro() rec_parametros() | {}}
+  void parametro(): {} {tipo0() resto_parametros()}
+  void resto_parametros(): {} {X() <IDEN>}
+  void X(): {} {"&" | {}}
+  
+  void intrucciones(): {} {lista_instrucciones() | {}}
+  void lista_instrucciones(): {} {instruccion() rec_instrucciones()}
+  void rec_instrucciones(): {} {";" instruccion() rec_instrucciones() | {}}
+  
+  void instruccion(): {} {instr_eval() | instr_cond() | instr_while() | instr_lectura() | instr_escritura() | instr_nl() | instr_reserv_mem()
+  						  | instr_libera_mem() | instr_invproc() | instr_compu()}
+  void instr_eval(): {} {"@" expresion()}
+  void instr_cond(): {} {<IF> expresion() bloque() instr_else()}
+  void instr_else(): {} {<ELSE> bloque() | {}}
+  void instr_while(): {} {<WHILE> expresion() bloque()}
+  void instr_lectura(): {} {<READ> expresion()}
+  void instr_escritura(): {} {<WRITE> expresion()}
+  void instr_nl(): {} {<NL>}
+  void instr_reserv_mem(): {} {<NEW> expresion()}
+  void instr_libera_mem(): {} {<DELETE> expresion()}
+  void instr_invproc(): {} {<CALL> <IDEN> "(" param_reales() ")"}
+  void param_reales(): {} {lista_param_reales() | {}}
+  void lista_param_reales(): {} {expresion() re_pareal()}
+  void re_pareal(): {} {"," expresion() re_pareal() | {}}
+  void instr_compu(): {} {bloque()}
+  
+  void expresion(): {} {"@" e0()}
+  
+  void e0(): {} {e1() re0()}
+  void re0(): {} {"=" e0() | {}}
+  
+  void e1(): {} {e2() re1()}
+  re1(): {} {op1() e2() re1() | {}}
+  op1(): {} {"==" | "!=" | "<" | "<=" | ">" | ">="}
+  
+  e2(): {} {e3() | re21() | re22()}
+  re21(): {} {"-" e3() | {}}
+  re22(): {} {"+" e3() re22() | {}}
+  
+  e3(): {} {e4() | re3()}
+  re3(): {} {<AND> e3() | <OR> e4() | {}}
+  
+  e4(): {} {e5() re4()}
+  re4(): {} {op4() e5() re4() | {}}
+  op4(): {} {"*" | "/" | "%"}
+  
+  e5(): {} {op5() e5() | e6()}
+  op5(): {} {"-" | <NOT>}
+  
+  e6(): {} {e7() re6()}
+  re6(): {} {op6() re6() | {}}
+  op6(): {] {"^" | "."<IDEN> | "["e0()"]"}
+  
+  e7(): {} {expr() | "("e0()")"}
+  expr(): {} {<TRUE> | <FALSE> | <NULL> | <cadena> | <lit_ent> | <lit_real> | <lit_exp> | <IDEN>}
   
