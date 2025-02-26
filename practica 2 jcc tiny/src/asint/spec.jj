@@ -53,8 +53,8 @@ PARSER_END(AnalizadorSintacticoTiny)
   void bloque()  : {} {"{" declaraciones() intrucciones() "}"}
   
   void declaraciones() : {} {lista_declaraciones() "&&" | {}}
-  void lista_declaraciones: {} {declaracion() rec-declaracion()}
-  void rec-declaracion: {} {";" declaracion() rec-declaracion() | {}}
+  void lista_declaraciones(): {} {declaracion() rec_declaracion()}
+  void rec_declaracion(): {} {";" declaracion() rec_declaracion() | {}}
   void declaracion(): {} {declaracion_variable() | declaracion_tipo() | declaracion_procedimiento()}
   
   void declaracion_variable(): {} {tipo0() <IDEN>}
@@ -66,7 +66,7 @@ PARSER_END(AnalizadorSintacticoTiny)
   void registro(): {} {<STRUCT> campos()}
   void campos(): {} {l_campos()}
   void l_campos(): {} {declaracion_variable() rec_l_campos()}
-  void rec_l_campos: {} {"," declaracion_variable() rec_l_campos() | {}}
+  void rec_l_campos(): {} {"," declaracion_variable() rec_l_campos() | {}}
   
   void declaracion_tipo(): {} {<TYPE> tipo0() <IDEN>}
   
@@ -106,27 +106,27 @@ PARSER_END(AnalizadorSintacticoTiny)
   void re0(): {} {"=" e0() | {}}
   
   void e1(): {} {e2() re1()}
-  re1(): {} {op1() e2() re1() | {}}
-  op1(): {} {"==" | "!=" | "<" | "<=" | ">" | ">="}
+  void re1(): {} {op1() e2() re1() | {}}
+  void op1(): {} {"==" | "!=" | "<" | "<=" | ">" | ">="}
   
-  e2(): {} {e3() | re21() | re22()}
-  re21(): {} {"-" e3() | {}}
-  re22(): {} {"+" e3() re22() | {}}
+  void e2(): {} {e3() re21() re22()}
+  void re21(): {} {"-" e3() | {}}
+  void re22(): {} {"+" e3() re22() | {}}
   
-  e3(): {} {e4() | re3()}
-  re3(): {} {<AND> e3() | <OR> e4() | {}}
+  void e3(): {} {e4() | re3()}
+  void re3(): {} {<AND> e3() | <OR> e4() | {}}
   
-  e4(): {} {e5() re4()}
-  re4(): {} {op4() e5() re4() | {}}
-  op4(): {} {"*" | "/" | "%"}
+  void e4(): {} {e5() re4()}
+  void re4(): {} {op4() e5() re4() | {}}
+  void op4(): {} {"*" | "/" | "%"}
   
-  e5(): {} {op5() e5() | e6()}
-  op5(): {} {"-" | <NOT>}
+  void e5(): {} {op5() e5() | e6()}
+  void op5(): {} {"-" | <NOT>}
   
-  e6(): {} {e7() re6()}
-  re6(): {} {op6() re6() | {}}
-  op6(): {] {"^" | "."<IDEN> | "["e0()"]"}
+  void e6(): {} {e7() re6()}
+  void re6(): {} {op6() re6() | {}}
+  void op6(): {} {"^" | "."<IDEN> | "["e0()"]"}
   
-  e7(): {} {expr() | "("e0()")"}
-  expr(): {} {<TRUE> | <FALSE> | <NULL> | <cadena> | <lit_ent> | <lit_real> | <lit_exp> | <IDEN>}
+  void e7(): {} {expr() | "("e0()")"}
+  void expr(): {} {<TRUE> | <FALSE> | <NULL> | <cadena> | <lit_ent> | <lit_real> | <lit_exp> | <IDEN>}
   
