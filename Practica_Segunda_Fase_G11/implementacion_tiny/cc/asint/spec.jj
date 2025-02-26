@@ -1,0 +1,113 @@
+options  {
+  STATIC=false;
+  DEBUG_PARSER=true;
+  TOKEN_MANAGER_USES_PARSER=true;
+}  
+PARSER_BEGIN(AnalizadorSintacticoTiny)
+package asint;
+
+public class AnalizadorSintacticoTiny {
+    protected void newToken(Token t) {}
+}
+
+PARSER_END(AnalizadorSintacticoTiny)
+
+  TOKEN:{<#letra:["a"-"z","A"-"Z"]>}
+  TOKEN:{<#digitoPositivo:["1"-"9"]>}
+  TOKEN:{<#digito:<digitoPositivo>|"0">} 
+  TOKEN:{<#parteEntera:<digitoPositivo> (<digito>)* |"0">} 
+  TOKEN:{<#parteDecimal: (<digito>)* <digitoPositivo> | "0">}
+  SKIP:{<["\t"," ","\r","\b","\n"]>}  
+  SKIP:{<"#""#"(~["\n"])*>}  
+  TOKEN: {<ENT:["i","I"]["n","N"]["t","T"]>}
+  TOKEN: {<REAL:["r","R"]["e","E"]["a","A"]["l","L"]>}
+  TOKEN: {<BOOL:["b","B"]["o","O"]["o","O"]["l","L"]>}
+  TOKEN: {<TRUE:["t","T"]["r","R"]["u","U"]["e","E"]>}
+  TOKEN: {<FALSE:["f","F"]["a","A"]["l","L"]["s","S"]["e","E"]>}
+  TOKEN: {<AND:["a","A"]["n","N"]["d","D"]>}
+  TOKEN: {<OR:["o","O"]["r","R"]>}
+  TOKEN: {<NOT:["n","N"]["o","O"]["t","T"]>}
+  TOKEN: {<NULL:["n","N"]["u","U"]["l","L"]["l","L"]>}
+  TOKEN: {<PROC:["p","P"]["r","R"]["o","O"]["c","C"]>}
+  TOKEN: {<IF:["i","I"]["f","F"]>}
+  TOKEN: {<ELSE :["e","E"]["l","L"]["s","S"]["e","E"]>}
+  TOKEN: {<WHILE:["w","W"]["h","H"]["i","I"]["l","L"]["e","E"]>}
+  TOKEN: {<STRUCT :["s","S"]["t","T"]["r","R"]["u","U"]["c","C"]["t","T"]>}
+  TOKEN: {<STRING:["s","S"]["t","T"]["r","R"]["i","I"]["n","N"]["g","G"]>}
+  TOKEN: {<NEW:["n","N"]["e","E"]["w","W"]>}
+  TOKEN: {<DELETE:["d","D"]["e","E"]["l","L"]["e","E"]["t","T"]["e","E"]>}
+  TOKEN: {<READ:["r","R"]["e","E"]["a","A"]["d","D"]>}
+  TOKEN: {<WRITE:["w","W"]["r","R"]["i", "I"]["t","T"]["e", "E"]>}
+  TOKEN: {<NL:["n","N"]["l","L"]>}
+  TOKEN: {<TYPE:["t","T"]["y","Y"]["p","P"]["e","E"]>}
+  TOKEN: {<CALL:["c","C"]["a","A"]["l","L"]["l","L"]>}
+  TOKEN:{<iden:(<letra>|"_")(<letra>|<digito>|"_")*>}
+  TOKEN:{<lit_ent:(["+","-"])?<parteEntera>>}
+  TOKEN:{<lit_real:<lit_ent>( "."<parteDecimal> | ["e","E"]<lit_ent> | "."<parteDecimal>["e","E"]<lit_ent>)>  }
+  TOKEN:{<cadena:("\""(~["\""])*"\"")> } 
+  
+  
+  void programa()  : {} { bloque() <EOF>}
+  void bloque()  : {} { "{" declaraciones() instrucciones() "}" }
+  void declaraciones() : {} {lista_declaraciones() "&&" |{} }
+  void lista_declaraciones() : {} { declaracion() rec_declaracion()}
+  void rec_declaracion() : {} {";" declaracion() rec_declaracion() | {}}
+  void declaracion() : {} {decvar() | dectipo() | decproc() }
+  void decvar() : {} { tipo0() <iden> }
+  void tipo0() : {} { tipo1() rec_tipo0() }
+  void rec_tipo0() : {} { "["<lit_ent>"]" rec_tipo0() | {} }
+  void tipo1() : {} { "^" tipo1() | tipo2() }
+  void tipo2() : {} { tipo_basico() | registro() | <iden> }
+  void tipo_basico() : {} { <ENT> | <REAL> | <BOOL> | <STRING> }
+  void registro() : {} { <STRUCT> "{"campos()"}" }
+  void campos() : {} {l_campos()}
+  void l_campos() : {} {decvar() rec_l_campos() }
+  void rec_l_campos() : {} { "," decvar() rec_l_campos() | {} }
+  void dectipo() : {} { <TYPE> tipo0() <iden> }
+  void decproc() : {} { cabeza() bloque() }
+  void cabeza() : {} { <PROC> <iden> "(" parametros() ")" } 
+  void parametros() : {} { lista_parametros() | {} }
+  void lista_parametros() : {} { parametro() rec_parametros() }
+  void rec_parametros() : {} { "," parametro() rec_parametros() | {} }
+  void parametro():{}{tipo0() resto_parametro()}
+  void resto_parametro() : {}{<iden> | "&" <iden>}
+  void instrucciones() : {} {lista_instrucciones() | {}}
+  void lista_instrucciones() : {} {instruccion() rec_instrucciones()}
+  void rec_instrucciones() : {} {";" instruccion() rec_instrucciones() | {}}
+  void instruccion() : {} {instr_eval() | instr_cond() | instr_while() | instr_lectura() | instr_escritura() | 
+  					instr_nl() | instr_reserv_mem() | instr_libera_mem() | instr_invproc() | instr_compu()}
+  void instr_eval() : {} {"@" expresion()}
+  void instr_cond() : {}{<IF> expresion() bloque() instr_else()}
+  void instr_else() : {} {<ELSE> bloque() |{}}
+  void instr_while() :{} {<WHILE> expresion() bloque()}
+  void instr_lectura() : {} {<READ> expresion()}
+  void instr_escritura() : {} {<WRITE> expresion()}
+  void instr_nl() : {} {<NL>}
+  void instr_reserv_mem() : {} {<NEW> expresion()}
+  void instr_libera_mem() : {} {<DELETE> expresion()}
+  void instr_invproc() : {} {<CALL> <iden> "(" param_reales() ")"}
+  void instr_compu(): {} {bloque()}
+  void param_reales() : {} {lista_param_reales() | {}}
+  void lista_param_reales():{}{expresion() re_pareal()}
+  void re_pareal() : {} {"," expresion() re_pareal() | {}}
+  void expresion(): {} { e0() }
+  void e0() : {} {e1() re0() }
+  void re0() : {} { "=" e0() | {} }
+  void e1() : {} { e2() re1() }
+  void re1() : {} {op1() e2() re1() | {}}
+  void e2() : {} {e3() re2() re22()}
+  void re2() : {} {"-" e3() | {}}
+  void re22() : {} {"+" e3() re22() | {}}  
+  void e3():{}{e4() re3()}
+  void re3():{}{<AND> e3() |<OR> e4()|{}}
+  void e4() : {} {e5() re4()}
+  void re4() : {} {op4() e5() re4() | {}}
+  void e5():{}{op5() e5()| e6()}
+  void e6() : {} {e7() re6()}
+  void re6() : {} {op6() re6()|{}}
+  void e7() : {} {expr_b() | "(" e0() ")"}
+  void expr_b() : {} {<TRUE> | <FALSE> | <lit_ent> |  <lit_real> | <iden> | <cadena> | <NULL> }
+  void op1() : {} {"==" | "!="| "<"| "<="| ">"| ">="}
+  void op4() : {} { "*" | "/" | "%" }
+  void op5(): {}{"-"|<NOT>}
+  void op6(): {}{"^"|"."<iden>|"["e0()"]"}
