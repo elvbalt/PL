@@ -4,7 +4,7 @@
 
 package alex;
 
-import errors.GestionErroresEval;
+import errors.GestionErroresTiny;
 
 
 // See https://github.com/jflex-de/jflex/issues/222
@@ -369,11 +369,11 @@ public class AnalizadorLexicoEval implements java_cup.runtime.Scanner {
 
   /* user code: */
   private ALexOperations ops;
-  private GestionErroresEval errores;
+  private GestionErroresTiny errores;
   public String lexema() {return yytext();}
   public int fila() {return yyline+1;}
   public int columna() {return yycolumn+1;}
-  public void fijaGestionErrores(GestionErroresEval errores) {
+  public void fijaGestionErrores(GestionErroresTiny errores) {
    this.errores = errores;
   }
 

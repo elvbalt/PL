@@ -1,48 +1,183 @@
 package asint;
 
 import java_cup.runtime.*;
-import alex.AnalizadorLexicoEval;
+import alex.AnalizadorLexicoTiny;
 import alex.UnidadLexica;
-import errors.GestionErroresEval;
+import errors.GestionErroresTiny;
 
 scan with {: 
   return getScanner().next_token(); 
 :};
 parser code {: 
-   private GestionErroresEval errores;
+   private GestionErroresTiny errores;
    public void syntax_error(Symbol unidadLexica) {
      errores.errorSintactico((UnidadLexica)unidadLexica);
    }
 :};
 init with {: 
-   errores = new GestionErroresEval();
-   AnalizadorLexicoEval alex = (AnalizadorLexicoEval)getScanner();
+   errores = new GestionErroresTiny();
+   AnalizadorLexicoTiny alex = (AnalizadorLexicoTiny)getScanner();
    alex.fijaGestionErrores(errores);
 :};
 
 
-terminal     DONDE, EVALUA, IDEN, ENT, REAL, MAS,
-             MENOS, POR, DIV, IGUAL, COMA, PAP, PCIERRE;
+terminal     EVALUA, IDEN, ENT, REAL, MAS, MENOS, POR, DIV, IGUAL, COMA, 
+			 PAP, PCIERRE, PR_INT, PR_REAL, PR_BOOL, PR_STRING, AND, 
+			 OR, NOT, TYPE, IF, ELSE, READ, WRITE, WHILE, NL, TRUE, FALSE,
+			 NULL, NEW, DELETE, MOD, CAP, CCIERRE, STRUCT, CADENA, LLAP, 
+			 LLACIERRE, PROC, PUNTOCOMA, CALL, AMPERSAND, ASIGNACION, 
+			 MAYOR, MENOR, DISTINTO, MAYORIGUAL, MENORIGUAL, PUNTO, 
+			 DOBLEAMPERSAND, FARR;
+			 
+non terminal  programa, bloque, declaraciones, 
+			  instrucciones, lista_declaraciones, expresion, 
+			  declaracion, declaracion_variable, declaracion_tipo, 
+			  registro, campos, l_campos, declaracion_procedimiento,
+			  cabeza, parametro, lista_parametros, parametros, 
+			  lista_instrucciones, instruccion, instr_eval, instr_cond, 
+			  instr_while, instr_lectura, instr_escritura, instr_nl,
+              instr_reserv_mem, instr_libera_mem, instr_invproc,
+              instr_compu, instr_else, param_reales, lista_param_reales, 
+              tipo0, tipo1, tipo2, rec_tipo0, E0, E1, E2, E3, E4, E5,
+              E6, E7, OP0, OP1, OP2, OP3, OP4, OP5, OP6, EXPR  
+              ;
 
-non terminal  programa, expresion, declaraciones, 
-              lista_declaraciones, declaracion, E0, E1, E2, OP0, OP1;
+programa ::= bloque;
+bloque ::= LLAP declaraciones instrucciones LLACIERRE;
 
-programa      ::= expresion declaraciones ;
-expresion     ::= EVALUA E0 ;
-declaraciones ::= DONDE lista_declaraciones ;
+declaraciones ::= lista_declaraciones DOBLEAMPERSAND;
 declaraciones ::= ;
-lista_declaraciones ::= lista_declaraciones COMA declaracion ;
+lista_declaraciones ::= lista_declaraciones PUNTOCOMA declaracion;
 lista_declaraciones ::= declaracion ;
-declaracion ::= IDEN IGUAL E0 ;
-E0 ::= E0 OP0 E1 ;
+
+declaracion ::= declaracion_variable;
+declaracion ::= declaracion_tipo;
+declaracion ::= declaracion_procedimiento;
+
+declaracion_variable ::= tipo0 IDEN
+
+tipo0 ::= tipo0 CAP ENT CCIERRE;
+tipo0 ::= tipo1;
+tipo1 ::= FARR tipo1;
+tipo1 ::= tipo2;
+tipo2 ::= registro;
+tipo2 ::= IDEN;
+tipo2 ::= PR_INT;
+tipo2 ::= PR_REAL;
+tipo2 ::= PR_BOOL;
+tipo2 ::= PR_STRING;
+
+registro ::= STRUCT LLAP campos LLACIERRE
+campos ::= l_campos;
+l_campos ::= l_campos COMA declaracion_variable;
+l_campos ::= declaracion_variable;
+
+declaracion_tipo ::= TYPE tipo0 IDEN;
+
+declaracion_procedimiento ::= cabeza bloque;
+cabeza ::= PROC IDEN PAP parametros PCIERRE;
+
+parametros ::= lista_parametros;
+parametros ::= ;
+lista_parametros ::= lista_parametros COMA parametro;
+lista_parametros ::= parametro ;
+
+parametro ::= tipo0 IDEN;
+parametro ::= tipo0 AMPERSAND IDEN;
+
+instrucciones ::= lista_instrucciones;
+instrucciones ::= ;
+lista_instrucciones ::= lista_instrucciones PUNTOCOMA instruccion;
+lista_instrucciones ::= instruccion;
+
+instruccion ::= instr_eval;
+instruccion ::= instr_cond;
+instruccion ::= instr_while;
+instruccion ::= instr_lectura;
+instruccion ::= instr_escritura;
+instruccion ::= instr_nl;
+instruccion ::= instr_reserv_mem;
+instruccion ::= instr_libera_mem;
+instruccion ::= instr_invproc;
+instruccion ::= instr_compu;
+
+instr_eval ::= EVALUA expresion;
+
+instr_cond ::= IF expresion bloque instr_else;
+instr_else ::= ELSE bloque;
+instr_else ::= ;
+
+instr_while ::= WHILE expresion bloque;
+
+instr_lectura ::= READ expresion;
+
+instr_escritura ::= WRITE expresion
+
+instr_nl ::= NL;
+
+instr_reserv_mem ::= NEW expresion;
+
+instr_libera_mem ::= DELETE expresion;
+
+instr_invproc ::= CALL IDEN PAP param_reales PCIERRE;
+param_reales ::= lista_param_reales;
+param_reales ::= ;
+lista_param_reales ::= lista_param_reales COMA expresion;
+lista_param_reales ::= expresion;
+
+instr_compu ::= bloque;
+
+
+expresion ::= EVALUA E0;
+
+E0 ::= E1 ASIGNACION E0;
 E0 ::= E1 ;
-E1 ::= E1 OP1 E2 ;
-E1 ::= E2 ;
-E2 ::= IDEN ;
-E2 ::= ENT ;
-E2 ::= REAL ;
-E2 ::= PAP E0 PCIERRE;
-OP0 ::= MAS ;
-OP0 ::= MENOS ;
-OP1 ::= POR ;
-OP1 ::= DIV ;
+
+E1 ::= E1 OP1 E2;
+E1 ::= E2;
+
+E2 ::= E2 MAS E3;
+E2 ::= E3 MENOS E3;
+E2 ::= E3;
+
+E3 ::= E4 AND E3;
+E3 ::= E4 OR E4;
+E3 ::= E4;
+
+E4 ::= E4 OP4 E5;
+E4 ::= E5;
+
+E5 ::= OP5 E5;
+E5 ::= E6;
+
+E6 ::= E6 OP6;
+E6 ::= E7;
+
+E7 ::=  EXPR;
+E7 ::=  PAP E0 PCIERRE;
+
+EXPR ::= TRUE;
+EXPR ::= FALSE;
+EXPR ::= ENT;
+EXPR ::= REAL;
+EXPR ::= IDEN;
+EXPR ::= CADENA;
+EXPR ::= NULL;
+
+OP1 ::= MAYOR;
+OP1 ::= MENOR;
+OP1 ::= MAYORIGUAL;
+OP1 ::= MENORIGUAL;
+OP1 ::= IGUAL;
+OP1 ::= DISTINTO;
+
+OP4 ::= POR;
+OP4 ::= DIV;
+OP4 ::= MOD;
+
+OP5 ::= MENOS;
+OP5 ::= NOT;
+
+OP6 ::= FARR;
+OP6 ::= PUNTO IDEN;
+OP6 ::= CAP E0 CCIERRE;

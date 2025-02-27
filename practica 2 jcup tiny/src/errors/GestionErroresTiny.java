@@ -2,7 +2,7 @@ package errors;
 
 import alex.UnidadLexica;
 
-public class GestionErroresEval {
+public class GestionErroresTiny {
    public class ErrorLexico extends RuntimeException {
        public ErrorLexico(String msg) {
            super(msg);
