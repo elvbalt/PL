@@ -25,55 +25,55 @@ public interface AnalizadorSintacticoTinyConstants {
   /** RegularExpression Id. */
   int EVALUA = 9;
   /** RegularExpression Id. */
-  int IDEN = 10;
+  int STRING = 10;
   /** RegularExpression Id. */
-  int lit_ent = 11;
+  int NULL = 11;
   /** RegularExpression Id. */
-  int lit_real = 12;
+  int PROC = 12;
   /** RegularExpression Id. */
-  int STRING = 13;
+  int TRUE = 13;
   /** RegularExpression Id. */
-  int NULL = 14;
+  int FALSE = 14;
   /** RegularExpression Id. */
-  int PROC = 15;
+  int IF = 15;
   /** RegularExpression Id. */
-  int TRUE = 16;
+  int ELSE = 16;
   /** RegularExpression Id. */
-  int FALSE = 17;
+  int WHILE = 17;
   /** RegularExpression Id. */
-  int IF = 18;
+  int STRUCT = 18;
   /** RegularExpression Id. */
-  int ELSE = 19;
+  int NEW = 19;
   /** RegularExpression Id. */
-  int WHILE = 20;
+  int DELETE = 20;
   /** RegularExpression Id. */
-  int STRUCT = 21;
+  int READ = 21;
   /** RegularExpression Id. */
-  int NEW = 22;
+  int WRITE = 22;
   /** RegularExpression Id. */
-  int DELETE = 23;
+  int NL = 23;
   /** RegularExpression Id. */
-  int READ = 24;
+  int TYPE = 24;
   /** RegularExpression Id. */
-  int WRITE = 25;
+  int CALL = 25;
   /** RegularExpression Id. */
-  int NL = 26;
+  int AND = 26;
   /** RegularExpression Id. */
-  int TYPE = 27;
+  int NOT = 27;
   /** RegularExpression Id. */
-  int CALL = 28;
+  int OR = 28;
   /** RegularExpression Id. */
-  int AND = 29;
+  int ENT = 29;
   /** RegularExpression Id. */
-  int NOT = 30;
+  int REAL = 30;
   /** RegularExpression Id. */
-  int OR = 31;
+  int BOOL = 31;
   /** RegularExpression Id. */
-  int ENT = 32;
+  int IDEN = 32;
   /** RegularExpression Id. */
-  int REAL = 33;
+  int lit_ent = 33;
   /** RegularExpression Id. */
-  int BOOL = 34;
+  int lit_real = 34;
   /** RegularExpression Id. */
   int cadena = 35;
   /** RegularExpression Id. */
@@ -94,9 +94,6 @@ public interface AnalizadorSintacticoTinyConstants {
     "<token of kind 7>",
     "<DONDE>",
     "<EVALUA>",
-    "<IDEN>",
-    "<lit_ent>",
-    "<lit_real>",
     "<STRING>",
     "<NULL>",
     "<PROC>",
@@ -119,6 +116,9 @@ public interface AnalizadorSintacticoTinyConstants {
     "<ENT>",
     "<REAL>",
     "<BOOL>",
+    "<IDEN>",
+    "<lit_ent>",
+    "<lit_real>",
     "<cadena>",
     "<lit_exp>",
     "\"{\"",
