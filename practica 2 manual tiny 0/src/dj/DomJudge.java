@@ -9,6 +9,7 @@ public class DomJudge{
      try{  
       AnalizadorSintacticoTiny0 asint = new AnalizadorSintacticoTiny0DJ(new InputStreamReader(System.in));
       asint.analiza();
+      System.out.println("ok");
      }
      catch(ErrorSintactico e) {
         System.out.println("ERROR_SINTACTICO"); 
