@@ -4,4 +4,4 @@ Los archivos que no ha generado el comando son Main.java y AnalizadorSintacticoT
 El archivo javacc.jar es que se descarga del campus
 
 Hay que añadir los tokens del spec.jj al AnalizadorSintacticoTinyDJ
-Hay que cambiar el main y el domjugde para que se pueda ejecutar el programa
+Hay que cambiar el domjugde para que se pueda ejecutar el programa
