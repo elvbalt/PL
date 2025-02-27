@@ -34,7 +34,8 @@ public enum ClaseLexica {
  NOT("<not>"),
  AND("<and>"),
  TRUE("<true>"),
- FALSE("<false>"),
+ FALSE("<false>"), 
+ EVAL,
  
  ;
 	

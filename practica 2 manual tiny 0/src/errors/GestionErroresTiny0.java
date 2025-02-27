@@ -3,7 +3,7 @@ package errors;
 import alex.ClaseLexica;
 import java.util.Set;
 
-public class GestionErroresEval {
+public class GestionErroresTiny0 {
    public static class ErrorLexico extends RuntimeException {
        public ErrorLexico(String msg) {
            super(msg);

@@ -5,12 +5,12 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.HashSet;
 
-import errors.GestionErroresEval;
+import errors.GestionErroresTiny0;
 
 import java.io.InputStreamReader;
 import java.io.IOException;
 
-public class AnalizadorLexicoEval {
+public class AnalizadorLexicoTiny0 {
     
    public static class ECaracterInesperado extends RuntimeException {
        public ECaracterInesperado(String msg) {
@@ -26,7 +26,7 @@ public class AnalizadorLexicoEval {
    private int filaActual;
    private int columnaActual;
    private static String NL = System.getProperty("line.separator");
-   private GestionErroresEval errores;
+   private GestionErroresTiny0 errores;
    
    
    private static enum Estado {
@@ -58,7 +58,7 @@ public class AnalizadorLexicoEval {
    }
    private Estado estado;
 
-   public AnalizadorLexicoEval(Reader input, GestionErroresEval errores) throws IOException {
+   public AnalizadorLexicoTiny0(Reader input, GestionErroresTiny0 errores) throws IOException {
     this.input = input;
     this.errores = errores;
     lex = new StringBuffer();
@@ -374,7 +374,7 @@ public class AnalizadorLexicoEval {
 
    public static void main(String arg[]) throws IOException {
      Reader input = new InputStreamReader(new FileInputStream("input.txt"));
-     AnalizadorLexicoEval al = new AnalizadorLexicoEval(input, new GestionErroresEval());
+     AnalizadorLexicoTiny0 al = new AnalizadorLexicoTiny0(input, new GestionErroresTiny0());
      UnidadLexica unidad;
      do {
        unidad = al.sigToken();

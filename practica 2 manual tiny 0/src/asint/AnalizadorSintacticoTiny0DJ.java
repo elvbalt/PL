@@ -4,8 +4,8 @@ import alex.UnidadLexica;
 import java.io.IOException;
 import java.io.Reader;
 
-public class AnalizadorSintacticoEvalDJ extends AnalizadorSintacticoEval {
-       public AnalizadorSintacticoEvalDJ(Reader input) throws IOException {
+public class AnalizadorSintacticoTiny0DJ extends AnalizadorSintacticoTiny0 {
+       public AnalizadorSintacticoTiny0DJ(Reader input) throws IOException {
           super(input); 
        }
      protected final void traza_emparejamiento(UnidadLexica unidad) {

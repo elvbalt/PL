@@ -1,13 +1,13 @@
 package dj;
-import asint.AnalizadorSintacticoEval;
-import asint.AnalizadorSintacticoEvalDJ;
-import errors.GestionErroresEval.ErrorLexico;
-import errors.GestionErroresEval.ErrorSintactico;
+import asint.AnalizadorSintacticoTiny0;
+import asint.AnalizadorSintacticoTiny0DJ;
+import errors.GestionErroresTiny0.ErrorLexico;
+import errors.GestionErroresTiny0.ErrorSintactico;
 import java.io.InputStreamReader;
 public class DomJudge{
    public static void main(String[] args) throws Exception {
      try{  
-      AnalizadorSintacticoEval asint = new AnalizadorSintacticoEvalDJ(new InputStreamReader(System.in));
+      AnalizadorSintacticoTiny0 asint = new AnalizadorSintacticoTiny0DJ(new InputStreamReader(System.in));
       asint.analiza();
      }
      catch(ErrorSintactico e) {
