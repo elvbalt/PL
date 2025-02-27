@@ -35,8 +35,6 @@ public enum ClaseLexica {
  AND("<and>"),
  TRUE("<true>"),
  FALSE("<false>"), 
- EVAL,
- 
  ;
 	
 private String image;

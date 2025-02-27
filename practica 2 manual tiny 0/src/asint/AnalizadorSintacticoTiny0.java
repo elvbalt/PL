@@ -109,13 +109,13 @@ public class AnalizadorSintacticoTiny0 {
    }
    private void instrucciones() {
 	   switch(anticipo.clase()) {
-       case EVAL: //solo tenemos instrucciones tipo eval 
+       case ARROBA: //solo tenemos instrucciones tipo eval 
      	  lista_instrucciones();
        //case LCIERRE:  
     	   // Si encontramos un `LCIERRE`, podemos terminar sin instrucciones
            break;
          default:
-             esperados(ClaseLexica.EVAL);
+             esperados(ClaseLexica.ARROBA);
              break;
 	      }
    }
