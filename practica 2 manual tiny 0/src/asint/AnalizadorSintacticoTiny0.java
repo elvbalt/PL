@@ -48,14 +48,14 @@ public class AnalizadorSintacticoTiny0 {
    
    private void declaraciones() {
 	   switch(anticipo.clase()) {
-       case INT: case BOOL: case REAL:
+       case INT: case BOOL: case REAL: case EXP: case DOUBLE: 
            lista_declaraciones();
            cierredec();
            break;
        //case LCIERRE:  
     	   // Si encontramos un `LCIERRE`, podemos terminar sin declaraciones
        default: 
-          esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL);
+          esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL, ClaseLexica.REAL, ClaseLexica.EXP, ClaseLexica.DOUBLE);
           break;
       }
    }
@@ -66,12 +66,12 @@ public class AnalizadorSintacticoTiny0 {
    
    private void declaracion() {
 	    switch(anticipo.clase()) {
-        case INT: case BOOL: case REAL:
+        case INT: case BOOL: case REAL: case EXP: case DOUBLE:
             tipo();
             empareja(ClaseLexica.IDEN);
             break;
         default: 
-           esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL);
+           esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL,ClaseLexica.EXP, ClaseLexica.DOUBLE);
            error();
        }  
    }
@@ -90,8 +90,10 @@ public class AnalizadorSintacticoTiny0 {
        case INT: empareja(ClaseLexica.INT); break;  
        case BOOL: empareja(ClaseLexica.BOOL); break;
        case REAL: empareja(ClaseLexica.REAL); break;
+       case EXP: empareja(ClaseLexica.EXP); break;
+       case DOUBLE: empareja(ClaseLexica.DOUBLE); break;
        default:    
-            esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL);             
+            esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL, ClaseLexica.EXP, ClaseLexica.DOUBLE);             
             error();
 	   }
    }
@@ -187,7 +189,7 @@ public class AnalizadorSintacticoTiny0 {
     }
    private void OP1() {    
 	     switch(anticipo.clase()) {
-	         case IGUAL: empareja(ClaseLexica.IGUAL); break; 
+	         case IGUAL_IGUAL: empareja(ClaseLexica.IGUAL_IGUAL); break; 
 	         case DIF: empareja(ClaseLexica.DIF); break; 
 	         case MENOR: empareja(ClaseLexica.MENOR); break; 
 	         case MENOR_IGUAL: empareja(ClaseLexica.MENOR_IGUAL); break; 
@@ -290,7 +292,7 @@ public class AnalizadorSintacticoTiny0 {
 		    case NOT: empareja(ClaseLexica.NOT); 
                 E5();
                 break;
-            case TRUE:case FALSE:case ENT: case REAL:case IDEN: case PAP:
+            case TRUE:case FALSE:case ENT: case REAL: case EXP: case DOUBLE: case IDEN: case PAP:
                 E6();
                 break;
 		    default:
@@ -303,7 +305,7 @@ public class AnalizadorSintacticoTiny0 {
     //EXPRESION NIVEL 6
       private void E6() {
 		switch(anticipo.clase()) {
-         case TRUE:case FALSE:case ENT: case REAL:case IDEN: 
+         case TRUE:case FALSE:case ENT: case REAL: case EXP: case DOUBLE: case IDEN: 
 	         EXPR();
 	          break;
       	case PAP: 
@@ -323,9 +325,11 @@ public class AnalizadorSintacticoTiny0 {
   		     case FALSE: empareja(ClaseLexica.FALSE); break; 
   		     case ENT: empareja(ClaseLexica.ENT); break; 
   		     case REAL: empareja(ClaseLexica.REAL); break; 
+  		     case EXP: empareja(ClaseLexica.EXP); break; 
+  		     case DOUBLE: empareja(ClaseLexica.DOUBLE); break; 
   		     case IDEN: empareja(ClaseLexica.IDEN); break;
   		     default:    
-  		         esperados(ClaseLexica.TRUE,ClaseLexica.FALSE,ClaseLexica.ENT,ClaseLexica.REAL,ClaseLexica.IDEN);             
+  		         esperados(ClaseLexica.TRUE,ClaseLexica.FALSE,ClaseLexica.ENT,ClaseLexica.REAL, ClaseLexica.REAL, ClaseLexica.EXP, ClaseLexica.DOUBLE, ClaseLexica.IDEN);             
   		         error();
   		 }
   		}

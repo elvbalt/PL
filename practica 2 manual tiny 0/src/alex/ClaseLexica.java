@@ -13,8 +13,6 @@ public enum ClaseLexica {
  MENOS("-"), 
  POR("*"), 
  DIV("/"), 
- //EVALUA("<evalua>"), 
- //DONDE("<donde>"), 
  EOF("EOF"),
  PUNTOCOMA(";"),
  MENOR("<"),

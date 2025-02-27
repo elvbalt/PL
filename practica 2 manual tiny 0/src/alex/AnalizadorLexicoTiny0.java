@@ -45,8 +45,6 @@ public class AnalizadorLexicoTiny0 {
    private static HashMap<String,ClaseLexica>privateWord;
    private void initPrivateWord() {
 	   privateWord = new HashMap<String, ClaseLexica>();
-	  // privateWord.put("evalua",ClaseLexica.EVALUA);
-	   //privateWord.put("donde",ClaseLexica.DONDE);
 	   privateWord.put("bool",ClaseLexica.BOOL);
 	   privateWord.put("int",ClaseLexica.INT);
 	   privateWord.put("real",ClaseLexica.REAL);
@@ -65,6 +63,7 @@ public class AnalizadorLexicoTiny0 {
     sigCar = input.read();
     filaActual=1;
     columnaActual=1;
+    initPrivateWord();
    }
    
    public UnidadLexica sigToken() throws IOException {
