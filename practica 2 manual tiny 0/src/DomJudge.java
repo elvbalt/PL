@@ -1,4 +1,4 @@
-package dj;
+
 import asint.AnalizadorSintacticoTiny0;
 import asint.AnalizadorSintacticoTiny0DJ;
 import errors.GestionErroresTiny0.ErrorLexico;

@@ -4,8 +4,8 @@ import asint.ClaseLexica;
 
 public class ALexOperations {
     
-  private AnalizadorLexicoEval alex;
-  public ALexOperations(AnalizadorLexicoEval alex) {
+  private AnalizadorLexicoTiny alex;
+  public ALexOperations(AnalizadorLexicoTiny alex) {
    this.alex = alex;   
   }
   public UnidadLexica unidadId() {
