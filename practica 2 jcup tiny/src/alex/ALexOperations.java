@@ -1,7 +1,5 @@
 package alex;
 
-import asint.ClaseLexica;
-
 public class ALexOperations {
     
   private AnalizadorLexicoTiny alex;
@@ -10,13 +8,7 @@ public class ALexOperations {
   }
   public UnidadLexica unidadId() {
      return new UnidadLexica(alex.fila(), alex.columna(),ClaseLexica.IDEN,alex.lexema()); 
-  } 
-  public UnidadLexica unidadEvalua() {
-     return new UnidadLexica(alex.fila(), alex.columna(),ClaseLexica.EVALUA,"<evalua>"); 
-  } 
-  public UnidadLexica unidadDonde() {
-     return new UnidadLexica(alex.fila(), alex.columna(),ClaseLexica.DONDE,"<donde>"); 
-  } 
+  }  
   public UnidadLexica unidadEnt() {
      return new UnidadLexica(alex.fila(), alex.columna(),ClaseLexica.ENT,alex.lexema()); 
   } 

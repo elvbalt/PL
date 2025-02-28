@@ -1,7 +1,6 @@
-package dj;
 
-import alex.AnalizadorLexicoTiny;
-import asint.AnalizadorSintacticoEval;
+
+import asint.AnalizadorSintacticoTiny;
 import asint.AnalizadorSintacticoTinyDJ;
 import errors.GestionErroresTiny.ErrorLexico;
 import errors.GestionErroresTiny.ErrorSintactico;
@@ -9,11 +8,13 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
+import alexx.AnalizadorLexicoTiny;
+
 public class DomJudge {
    public static void main(String[] args) throws Exception {
      Reader input = new InputStreamReader(System.in);
      AnalizadorLexicoTiny alex = new AnalizadorLexicoTiny(input);
-     AnalizadorSintacticoEval asint = new AnalizadorSintacticoTinyDJ(alex);
+     AnalizadorSintacticoTiny asint = new AnalizadorSintacticoTinyDJ(alex);
 	 //asint.setScanner(alex);
      try {    
         asint.debug_parse();

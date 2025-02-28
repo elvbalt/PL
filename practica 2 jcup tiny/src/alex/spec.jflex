@@ -1,11 +1,11 @@
 package alex;
 
-import errors.GestionErroresEval;
+import errors.GestionErroresTiny;
 
 %%
 %line
 %column
-%class AnalizadorLexicoEval
+%class AnalizadorLexicoTiny
 %type  UnidadLexica
 %unicode
 %public
@@ -13,11 +13,11 @@ import errors.GestionErroresEval;
 
 %{
   private ALexOperations ops;
-  private GestionErroresEval errores;
+  private GestionErroresTiny errores;
   public String lexema() {return yytext();}
   public int fila() {return yyline+1;}
   public int columna() {return yycolumn+1;}
-  public void fijaGestionErrores(GestionErroresEval errores) {
+  public void fijaGestionErrores(GestionErroresTiny errores) {
    this.errores = errores;
   }
 
@@ -140,8 +140,6 @@ literalExponencial = ({numeroReal}|{numeroEntero})[eE]{numeroEntero}
 
 {separador}               {}
 {comentario}              {}
-{evalua}                  {return ops.unidadEvalua();}
-{donde}                   {return ops.unidadDonde();}
 {identificador}           {return ops.unidadId();}
 {numeroEntero}            {return ops.unidadEnt();}
 {numeroReal}              {return ops.unidadReal();}
