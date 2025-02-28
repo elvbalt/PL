@@ -4,7 +4,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.io.Reader;
 
-import alexx.AnalizadorLexicoTiny;
+import alex.AnalizadorLexicoTiny;
 
 public class Main {
    public static void main(String[] args) throws Exception {

@@ -54,7 +54,7 @@ declaracion ::= declaracion_variable;
 declaracion ::= declaracion_tipo;
 declaracion ::= declaracion_procedimiento;
 
-declaracion_variable ::= tipo0 IDEN
+declaracion_variable ::= tipo0 IDEN;
 
 tipo0 ::= tipo0 CAP ENT CCIERRE;
 tipo0 ::= tipo1;
@@ -67,7 +67,7 @@ tipo2 ::= PR_REAL;
 tipo2 ::= PR_BOOL;
 tipo2 ::= PR_STRING;
 
-registro ::= STRUCT LLAP campos LLACIERRE
+registro ::= STRUCT LLAP campos LLACIERRE;
 campos ::= l_campos;
 l_campos ::= l_campos COMA declaracion_variable;
 l_campos ::= declaracion_variable;
@@ -111,7 +111,7 @@ instr_while ::= WHILE expresion bloque;
 
 instr_lectura ::= READ expresion;
 
-instr_escritura ::= WRITE expresion
+instr_escritura ::= WRITE expresion;
 
 instr_nl ::= NL;
 
