@@ -1,0 +1,5 @@
+## lista parametros formales mal modelada
+{
+proc x(int u, int v) {}
+&&
+}
