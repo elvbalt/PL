@@ -113,7 +113,6 @@ literalExponencial = ({numeroReal}|{numeroEntero})[eE]{numeroEntero}
 {call} 					  {return ops.unidadCall();}
 {bool} 					  {return ops.unidadBool();}
 {int} 					  {return ops.unidadInt();}
-{real} 					  {return ops.unidadDouble();}
 {modulo}				  {return ops.unidadModulo();}
 {referencia}              {return ops.unidadReferencia();}
 {punto}   				  {return ops.unidadPunto();}
@@ -132,7 +131,6 @@ literalExponencial = ({numeroReal}|{numeroEntero})[eE]{numeroEntero}
 {llaveAp} 				  {return ops.unidadLlaveAp();}
 {llaveCierre} 			  {return ops.unidadLlaveCierre();}
 {literalCadena}			  {return ops.unidadCadena();}
-{literalExponencial}      {return ops.unidadExp();}
 {and}			  		  {return ops.unidadAnd();}
 {or}			  		  {return ops.unidadOr();}
 {not}			  		  {return ops.unidadNot();}

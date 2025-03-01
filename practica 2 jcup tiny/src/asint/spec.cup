@@ -128,7 +128,7 @@ lista_param_reales ::= expresion;
 instr_compu ::= bloque;
 
 
-expresion ::= EVALUA E0;
+expresion ::= E0;
 
 E0 ::= E1 ASIGNACION E0;
 E0 ::= E1 ;

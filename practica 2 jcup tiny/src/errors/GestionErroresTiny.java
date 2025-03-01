@@ -17,6 +17,6 @@ public class GestionErroresTiny {
      throw new ErrorLexico("ERROR fila "+fila+": Caracter inexperado: "+lexema); 
    }  
    public void errorSintactico(UnidadLexica unidadLexica) {
-     throw new ErrorSintactico("ERROR fila "+unidadLexica.fila()+", columna "+unidadLexica.columna()+" : Elemento inexperado "+unidadLexica.lexema());
+     throw new ErrorSintactico("ERROR fila "+unidadLexica.fila()+", columna "+unidadLexica.columna()+" : Elemento inexperado " + unidadLexica.lexema());
    }
 }

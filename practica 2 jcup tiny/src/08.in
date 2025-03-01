@@ -1,0 +1,6 @@
+## tipo struct sin campos
+{
+struct{} x
+&&
+@ x=5
+}

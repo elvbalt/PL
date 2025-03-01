@@ -1,0 +1,5 @@
+## parametro formal vacio
+{
+proc x(,,,) {}
+&&
+}

@@ -111,7 +111,7 @@ public class ALexOperations {
 	     return new UnidadLexica(alex.fila(), alex.columna(),sym.AND, "<and>");     	
   }
   public UnidadLexica unidadExp() {
-	     return new UnidadLexica(alex.fila(), alex.columna(),sym.REAL, "<real>");     	
+	     return new UnidadLexica(alex.fila(), alex.columna(),sym.REAL, alex.lexema());     	
   }
   public UnidadLexica unidadInt() {
 	     return new UnidadLexica(alex.fila(), alex.columna(),sym.PR_INT, "<int>");     	
@@ -141,7 +141,7 @@ public class ALexOperations {
 	     return new UnidadLexica(alex.fila(), alex.columna(),sym.READ, "<read>");     	
   }
   public UnidadLexica unidadDouble() {
-	     return new UnidadLexica(alex.fila(), alex.columna(),sym.REAL, "<real>");     	
+	     return new UnidadLexica(alex.fila(), alex.columna(),sym.REAL, alex.lexema());     	
   }
   public UnidadLexica unidadTrue() {
 	     return new UnidadLexica(alex.fila(), alex.columna(),sym.TRUE, "<true>");     	
@@ -166,5 +166,5 @@ public class ALexOperations {
   }
   public UnidadLexica unidadStruct() {
 	     return new UnidadLexica(alex.fila(), alex.columna(),sym.STRUCT, "<struct>");     	
-}
+  }
 }
