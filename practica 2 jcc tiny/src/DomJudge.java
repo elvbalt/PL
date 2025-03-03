@@ -1,11 +1,13 @@
-package dj;
+
 import asint.AnalizadorSintacticoTiny;
 import asint.AnalizadorSintacticoTinyDJ;
 import asint.ParseException;
 import asint.TokenMgrError;
 
+import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.InputStreamReader;
+import java.io.Reader;
 public class DomJudge{
    public static void main(String[] args) throws Exception {
      try{  
