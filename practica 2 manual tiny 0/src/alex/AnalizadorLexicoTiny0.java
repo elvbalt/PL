@@ -321,14 +321,7 @@ public class AnalizadorLexicoTiny0 {
      return new UnidadLexicaUnivaluada(filaInicio,columnaInicio,ClaseLexica.EOF);     
    }    
    private void error() {
-     int curCar = sigCar;
-     try{
-       sigCar();
-     }
-     catch(IOException e) {
-    	 System.out.println("Error :::");
-     }
-     throw new ECaracterInesperado("("+filaActual+','+columnaActual+"):Caracter inexperado:"+(char)curCar); 
+	   errores.errorLexico(filaActual,columnaActual,(char)sigCar);
    }
 
    

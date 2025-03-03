@@ -2,6 +2,9 @@ package alex;
 
 public enum ClaseLexica {
  IDEN, 
+ BOOL("<bool>"),
+ INT("<int>"),
+ REAL("<real>"),
  ENT, 
  DOUBLE, 
  EXP,
@@ -13,7 +16,7 @@ public enum ClaseLexica {
  MENOS("-"), 
  POR("*"), 
  DIV("/"), 
- EOF("EOF"),
+ EOF("<EOF>"),
  PUNTOCOMA(";"),
  MENOR("<"),
  MAYOR(">"),
@@ -25,9 +28,6 @@ public enum ClaseLexica {
  LAP("{"),
  LCIERRE("}"),
  IGUAL_IGUAL("=="),
- BOOL("<bool>"),
- INT("<int>"),
- REAL("<real>"),
  OR("<or>"),
  NOT("<not>"),
  AND("<and>"),

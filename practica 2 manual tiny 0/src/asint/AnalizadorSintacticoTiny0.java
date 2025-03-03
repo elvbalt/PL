@@ -48,14 +48,12 @@ public class AnalizadorSintacticoTiny0 {
    
    private void declaraciones() {
 	   switch(anticipo.clase()) {
-       case INT: case BOOL: case REAL: case EXP: case DOUBLE: 
+       case INT: case BOOL: case REAL: case EXP: 
            lista_declaraciones();
            cierredec();
            break;
-       //case LCIERRE:  
-    	   // Si encontramos un `LCIERRE`, podemos terminar sin declaraciones
        default: 
-          esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL, ClaseLexica.REAL, ClaseLexica.EXP, ClaseLexica.DOUBLE);
+          esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL, ClaseLexica.EXP);
           break;
       }
    }
@@ -66,12 +64,12 @@ public class AnalizadorSintacticoTiny0 {
    
    private void declaracion() {
 	    switch(anticipo.clase()) {
-        case INT: case BOOL: case REAL: case EXP: case DOUBLE:
+        case INT: case BOOL: case REAL: case EXP:
             tipo();
             empareja(ClaseLexica.IDEN);
             break;
         default: 
-           esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL,ClaseLexica.EXP, ClaseLexica.DOUBLE);
+           esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL,ClaseLexica.EXP);
            error();
        }  
    }
@@ -90,8 +88,6 @@ public class AnalizadorSintacticoTiny0 {
        case INT: empareja(ClaseLexica.INT); break;  
        case BOOL: empareja(ClaseLexica.BOOL); break;
        case REAL: empareja(ClaseLexica.REAL); break;
-       case EXP: empareja(ClaseLexica.EXP); break;
-       case DOUBLE: empareja(ClaseLexica.DOUBLE); break;
        default:    
             esperados(ClaseLexica.INT,ClaseLexica.BOOL,ClaseLexica.REAL, ClaseLexica.EXP, ClaseLexica.DOUBLE);             
             error();
@@ -113,9 +109,7 @@ public class AnalizadorSintacticoTiny0 {
 	   switch(anticipo.clase()) {
        case ARROBA: //solo tenemos instrucciones tipo eval 
      	  lista_instrucciones();
-       //case LCIERRE:  
-    	   // Si encontramos un `LCIERRE`, podemos terminar sin instrucciones
-           break;
+     	  break;
          default:
              esperados(ClaseLexica.ARROBA);
              break;
@@ -131,8 +125,6 @@ public class AnalizadorSintacticoTiny0 {
                empareja(ClaseLexica.PUNTOCOMA);
                instruccion();
                rec_instrucciones();
-           //case LCIERRE:  
-        	   // ??
                break;
            default:
               esperados(ClaseLexica.PUNTOCOMA);
@@ -329,7 +321,7 @@ public class AnalizadorSintacticoTiny0 {
   		     case DOUBLE: empareja(ClaseLexica.DOUBLE); break; 
   		     case IDEN: empareja(ClaseLexica.IDEN); break;
   		     default:    
-  		         esperados(ClaseLexica.TRUE,ClaseLexica.FALSE,ClaseLexica.ENT,ClaseLexica.REAL, ClaseLexica.REAL, ClaseLexica.EXP, ClaseLexica.DOUBLE, ClaseLexica.IDEN);             
+  		         esperados(ClaseLexica.TRUE,ClaseLexica.FALSE,ClaseLexica.ENT,ClaseLexica.REAL,ClaseLexica.EXP, ClaseLexica.DOUBLE, ClaseLexica.IDEN);             
   		         error();
   		 }
   		}
